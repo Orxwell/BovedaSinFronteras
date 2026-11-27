@@ -1,125 +1,151 @@
-# Plata sin fronteras: demo design
+# Plata sin fronteras: diseño de la demo
 
-Date: 2026-11-27 · Status: draft for approval · Challenge statement: [docs/reto-belo-plata-sin-fronteras.md](../../reto-belo-plata-sin-fronteras.md)
+Fecha: 2026-11-27 · Estado: borrador para aprobación · Planteamiento del reto: [docs/reto-belo-plata-sin-fronteras.md](../../reto-belo-plata-sin-fronteras.md)
 
-## 1. Intent
+## 1. Intención
 
-We are building a hackathon entry for the Belo challenge "Plata sin fronteras". The goal is the highest possible score on the challenge rubric (section 07): Impact 30%, Innovation 20%, Technical feasibility 20%, Implementation feasibility 20%, Presentation 10%.
+Construimos una propuesta para el reto de Belo "Plata sin fronteras". La meta es el puntaje más alto posible en la rúbrica del reto (sección 07):
 
-The entry is **one end-to-end user story**, not four separate mini-demos. It touches all four challenge ideas, and **fraud protection ("Seguridad sin fricción") is the piece built in depth**. The other three are thin but working.
+| Criterio | Peso |
+|---|---|
+| Impacto | 30% |
+| Innovación | 20% |
+| Viabilidad técnica | 20% |
+| Viabilidad de implementación | 20% |
+| Presentación | 10% |
 
-Why one story: the challenge asks for a demo that "muestra el flujo completo desde el punto de vista de la persona". It also asks "¿funciona de punta a punta?" (Technical feasibility). One coherent flow beats four half-finished ones on both counts.
+La propuesta es **una sola historia de punta a punta**, no cuatro mini-demos separadas. Toca las cuatro ideas del reto, y la **protección contra fraude ("Seguridad sin fricción") es la pieza que se construye a fondo**. Las otras tres son livianas pero funcionan.
 
-Why security is the deep piece: it is the most dramatic moment of the story. It works end to end with deterministic rules. Belo could adopt it soon, which helps Implementation feasibility. It gives the AI a clear, defensible role, which helps Innovation.
+**Por qué una sola historia:** el reto pide una demo que "muestra el flujo completo desde el punto de vista de la persona", y la rúbrica pregunta "¿funciona de punta a punta?" (viabilidad técnica). Un flujo coherente le gana a cuatro piezas a medias en ambos puntos.
 
-## 2. The story
+**Por qué la seguridad va a fondo:**
+- Es el momento más dramático de la historia.
+- Funciona de punta a punta con reglas deterministas.
+- Belo podría adoptarla pronto, lo que suma en viabilidad de implementación.
+- Le da a la IA un papel claro y defendible, lo que suma en innovación.
 
-All people and data are fictional.
+## 2. La historia
 
-- **Andrés**, 29, freelancer in Santiago (Chile). Experienced app user.
-- **Rosa**, 68, his mother, in Bogotá (Colombia). She has never had a bank account and is not a Belo user yet. She uses WhatsApp.
+Todas las personas y los datos son ficticios.
 
-Demo beats, in order:
+- **Andrés**, 29 años, freelancer en Santiago (Chile). Usa apps con soltura.
+- **Rosa**, 68 años, su mamá, en Bogotá (Colombia). Nunca tuvo cuenta bancaria y todavía no usa Belo. Usa WhatsApp.
 
-1. **Sending to someone without an account.** Andrés sends US$200 to Rosa's phone number. Before sending, Andrés sees "Rosa aún no tiene Belo. Le llegará un link para recibir." The payment is not rejected. The graph runs debit → FX lock → watchdog → AML and stops at a **"Esperando a Rosa"** node: the money is reserved for her.
-2. **First time.** Rosa's phone shows a WhatsApp-style message with the claim link (simulated). She opens it, and the Belo chat begins:
-   - it asks one question to pick her level, and she gets the simple level;
-   - she completes a simplified sign-up (synthetic data, simulated one-time code to her number);
-   - she learns what a digital dollar is through a "jars" card;
-   - she receives COP 800.000 and chooses where to keep it (pesos or dollars).
+Momentos de la demo, en orden:
 
-   Synthetic rate: 4.000 COP/USD.
-3. **Speed.** Andrés sends US$20 more "para el taxi". Now Rosa has an account, and the graph runs the full path: she receives in **740 ms** (simulated).
-4. **Scam stopped.** A fake "Belo advisor" phones Rosa (the presenter narrates this part). He pushes her to move all her money to a "safe account". She tries to send her whole balance to a new key at 22:40.
-   - The watchdog pauses the payment and asks her one question.
-   - She answers by voice: "me llamó uno de Belo diciendo que mi cuenta estaba en peligro".
-   - Simulated Jev judgments flag impersonation, and the payment is escalated to a hold.
-   - Rosa sees "Llamar a Andrés", and Andrés gets a notification.
-   - On the graph, the packet stops at the Vigilante node, and the node expands to show how it decided.
-5. **Scam not stopped, then reported.** In a second scenario, Rosa pays COP 150.000 for a fake online purchase. It is low risk, so it passes with a soft notice only. Later she taps "Me estafaron", tells what happened in a voice note, and the app builds the case. She reviews it and submits.
-6. **Advisor.** Rosa says she wants to save COP 300.000 for December. The advisor asks one risk-profile question, shows her profile, and proposes a savings plan with a simulator. She confirms. The advisor never moves money by itself.
+1. **Enviar a alguien sin cuenta.** Andrés le envía US$200 al número de celular de Rosa.
+   - Antes de enviar, ve: "Rosa aún no tiene Belo. Le llegará un link para recibir."
+   - El pago no se rechaza. El grafo recorre débito → tasa fijada → vigilante → controles antilavado y se detiene en un nodo **"Esperando a Rosa"**: la plata queda reservada para ella.
+2. **Primera vez.** En el teléfono de Rosa aparece un mensaje estilo WhatsApp con el link para reclamar (simulado). Lo abre y empieza el chat de Belo:
+   - la app hace una pregunta para elegir su nivel, y a Rosa le toca el nivel sencillo;
+   - completa un registro simplificado (datos inventados y un código de un solo uso simulado a su número);
+   - aprende qué es un dólar digital con una tarjeta de "frascos";
+   - recibe COP 800.000 y elige dónde guardarlos (pesos o dólares).
 
-The live-slot length is unknown. Beats 1–4 must fit in about 3 minutes. Beats 5–6 are shown live if time allows; otherwise they appear in the pitch and the backup video.
+   Tasa ficticia: 4.000 COP por dólar.
+3. **Velocidad.** Andrés envía US$20 más "para el taxi". Como Rosa ya tiene cuenta, el grafo recorre el camino completo y ella recibe en **740 ms** (simulado).
+4. **Estafa frenada.** Un falso "asesor de Belo" llama a Rosa; el presentador narra esta parte. Le insiste en pasar toda su plata a una "cuenta segura". A las 22:40, Rosa intenta enviar todo su saldo a una llave nueva.
+   - El vigilante pausa el pago y le hace una pregunta.
+   - Ella responde por voz: "me llamó uno de Belo diciendo que mi cuenta estaba en peligro".
+   - Los juicios simulados de Jev detectan suplantación, y el pago pasa a retención.
+   - Rosa ve "Llamar a Andrés", y a Andrés le llega un aviso.
+   - En el grafo, el paquete se frena en el nodo Vigilante, y el nodo se abre para mostrar cómo decidió.
+5. **Estafa no frenada y reportada.** En un segundo escenario, Rosa paga COP 150.000 por una compra falsa en internet. El riesgo es bajo, así que pasa solo con un aviso suave. Después toca "Me estafaron", cuenta lo que pasó en una nota de voz y la app arma el caso. Ella lo revisa y lo envía.
+6. **Asesor.** Rosa dice que quiere ahorrar COP 300.000 para diciembre. El asesor le hace una pregunta de perfil de riesgo, le muestra su perfil y le propone un plan de ahorro con un simulador. Ella confirma. El asesor nunca mueve plata por su cuenta.
 
-## 3. Goals, non-goals, anti-goals
+No sabemos cuánto dura el turno en vivo. Los momentos 1 a 4 deben caber en unos 3 minutos. Los momentos 5 y 6 se muestran en vivo si sobra tiempo; si no, van en el pitch y en el video de respaldo.
 
-**Goals**
-- A demo that runs the full story above, reliably, live on stage.
-- A real, tested, framework-free rules engine for the watchdog that Belo could lift as-is.
-- A visible explanation of *why* the payment is fast and *why* the watchdog decided what it did.
-- A UI that a 68-year-old first-time user and a tech-savvy 29-year-old can both use.
+## 3. Metas, fuera de alcance y lo que no puede pasar
 
-**Non-goals**
-- Integration with real payment rails, real KYC, or real FX.
-- Calling Jev live. The team has no TypeSafe access for this event.
-- Account-takeover detection beyond 1–2 rules. The depth goes to scams where the user is tricked into paying ("authorized push payment" scams).
-- Real credit underwriting or executing investments.
-- A native mobile app, multi-user hosting, or per-visitor state.
+**Metas**
+- Una demo que corra la historia completa, de forma confiable y en vivo.
+- Un motor de reglas real y probado para el vigilante, sin dependencias del framework, que Belo pueda llevarse tal cual.
+- Una explicación visible de *por qué* el pago es rápido y *por qué* el vigilante decidió lo que decidió.
+- Una interfaz que puedan usar tanto una persona de 68 años que la usa por primera vez como un joven de 29 que domina la tecnología.
 
-**Anti-goals**: these make the entry fail even if it technically works.
-- Any AI or agent that moves, freezes, or releases money on its own. The challenge excludes "agentes que operan solos con la plata de la persona".
-- Real personal data anywhere: code, fixtures, logs, screenshots, video.
-- Presenting simulated AI answers or simulated latencies as live or measured.
-- Scare-heavy UI or dark patterns toward elderly users.
+**Fuera de alcance**
+- Integración con rieles de pago, KYC o cambio de divisas reales.
+- Llamar a Jev en vivo: el equipo no tiene acceso a TypeSafe para este evento.
+- Detección de robo de cuenta más allá de una o dos reglas. La profundidad va a las estafas en que engañan a la persona para que pague ("estafas de pago autorizado").
+- Evaluación real de crédito o ejecución de inversiones.
+- App móvil nativa, hosting para muchos usuarios o estado por visitante.
 
-## 4. Constraints
+**Lo que no puede pasar**, porque hace fallar la propuesta aunque técnicamente funcione:
+- Una IA o un agente que mueva, congele o libere plata por su cuenta. El reto excluye los "agentes que operan solos con la plata de la persona".
+- Datos personales reales en cualquier parte: código, fixtures, logs, capturas o video.
+- Presentar respuestas de IA simuladas, o latencias simuladas, como si fueran en vivo o medidas.
+- Una interfaz alarmista o con patrones engañosos hacia personas mayores.
 
-- **Challenge rules:** working prototype; simulated data or public services only; deliverables are a pitch, a demo, and a **public repository**.
-- **Delivery:** Tuesday **2026-12-01**. **Two engineers.**
-- **Presentation format:** live, presenter-driven, on one laptop, with a **recorded video as backup**. The demo runs as one long-running local server process; nothing depends on venue Wi-Fi except, optionally, browser speech recognition.
-- **Colombian regulation.** Respect it; the demo never proposes evading controls. Verify the following before the pitch. This document does not assert specifics:
-  - Investment advice is regulated by the Superintendencia Financiera (SFC). The advisor is framed as **education and simulation**, not personalized investment advice.
-  - Cross-border transfers go through the exchange regime (authorized FX intermediaries). Belo's actual license status in Colombia is unverified.
-  - AML controls (SARLAFT) belong in the payment path. The demo's simplified sign-up stands in for a real simplified-KYC product; check which low-amount or simplified account types apply.
-  - Habeas data (Ley 1581 de 2012) applies to the shared list of reported keys, to voice notes, and to the sign-up data.
-- **No autonomous money movement:** deterministic rules decide; AI only interprets language; the user or a human reviewer makes every final call.
-- **Dependencies.** Under the owner's rules, every new dependency needs its need, license, and maintenance justified, plus approval. Proposed, and approved together with this document:
-  - **Runtime:** `next`, `react`, and `react-dom`. Next.js provides frontend and API in one project, and is actively maintained by Vercel. React and React DOM are maintained by Meta. All three are MIT-licensed.
-  - **Dev:** `typescript` (Apache-2.0, maintained by Microsoft), plus `@types/node`, `@types/react`, and `@types/react-dom` (MIT, DefinitelyTyped).
+## 4. Restricciones
 
-  Versions are not pinned here; the builder picks current stable releases. Scaffold defaults beyond this list are **excluded** unless separately approved: ESLint, Tailwind, test frameworks, UI kits, and so on. No Three.js and no TypeSafe SDK.
+**Reglas del reto:** prototipo funcional; solo datos simulados o servicios públicos; se entregan un pitch, una demo y un **repositorio público**.
 
-## 5. Approaches considered
+**Entrega:** martes **2026-12-01**. **Dos ingenieros.**
 
-| Approach | Trade-off | Decision |
+**Formato de presentación:**
+- en vivo, guiada por un presentador, en un solo laptop, con un **video grabado de respaldo**;
+- la demo corre como un solo proceso de servidor local de larga duración;
+- nada depende del Wi-Fi del lugar, salvo, opcionalmente, el reconocimiento de voz del navegador.
+
+**Regulación colombiana.** Hay que respetarla, y la demo nunca propone evadir controles. Antes del pitch hay que verificar lo siguiente; este documento no afirma detalles:
+- La asesoría de inversión está regulada por la Superintendencia Financiera (SFC). Por eso el asesor se presenta como **educación y simulación**, no como asesoría de inversión personalizada.
+- Las transferencias entre países pasan por el régimen cambiario (intermediarios del mercado cambiario autorizados). No está verificado qué licencia tiene Belo en Colombia.
+- Los controles antilavado (SARLAFT) van dentro del camino del pago. El registro simplificado de la demo representa un producto real con KYC simplificado; hay que revisar qué tipos de cuenta de bajo monto o simplificada aplican.
+- La ley de habeas data (Ley 1581 de 2012) aplica a la lista compartida de llaves reportadas, a las notas de voz y a los datos del registro.
+
+**Nada de mover plata sin la persona:** las reglas deterministas deciden; la IA solo interpreta lenguaje; la persona usuaria o un revisor humano toma cada decisión final.
+
+**Dependencias.** Según las reglas del dueño del proyecto, cada dependencia nueva necesita justificar su necesidad, licencia y mantenimiento, y requiere aprobación. Se proponen las siguientes, y se aprueban junto con este documento:
+- **Runtime:** `next`, `react` y `react-dom`, todas con licencia MIT.
+  - Next.js da frontend y API en un mismo proyecto; Vercel lo mantiene activamente.
+  - React y React DOM los mantiene Meta.
+- **Desarrollo:**
+  - `typescript`: licencia Apache-2.0; lo mantiene Microsoft.
+  - `@types/node`, `@types/react` y `@types/react-dom`: licencia MIT; vienen de DefinitelyTyped.
+
+Las versiones no se fijan aquí; quien construye elige las estables actuales. Todo lo demás que el scaffold trae por defecto queda **excluido** salvo aprobación aparte: ESLint, Tailwind, frameworks de pruebas, kits de UI, etc. Ni Three.js ni el SDK de TypeSafe.
+
+## 5. Enfoques considerados
+
+| Enfoque | Ventajas y desventajas | Decisión |
 |---|---|---|
-| **A. One TypeScript app** (Next.js frontend + API routes, one process) | One language and one process. Slower if the team were Python-first. | **Chosen** by the team. |
-| B. Web frontend + Python backend (FastAPI) | Comfortable for a Python team. Two projects, with more glue between them. | Rejected. |
-| C. Static site, no server | Fastest to build. But it has no server-side state, so there is no real ledger, no claim flow across two phones, and no server-side watchdog evaluating each payment. That weakens "funciona de punta a punta", and the live-Jev path later would need a server anyway. | Rejected. |
+| **A. Una sola app en TypeScript** (Next.js con frontend y rutas de API, un proceso) | Un lenguaje y un proceso. Sería más lento si el equipo fuera más fuerte en Python. | **Elegido** por el equipo. |
+| B. Frontend web + backend en Python (FastAPI) | Cómodo para un equipo de Python, pero son dos proyectos y hay más código para conectarlos. | Descartado. |
+| C. Sitio estático, sin servidor | Lo más rápido de construir, pero sin estado en el servidor. Sin servidor no hay libro contable real, ni reclamo por link entre dos teléfonos, ni vigilante en el servidor evaluando cada pago. Eso debilita "funciona de punta a punta", y el camino a Jev en vivo necesitaría un servidor igual. | Descartado. |
 
-**Jev (TypeSafe System One) is simulated.** The team has never used Jev and has no TypeSafe access for this event. Decision: hand-written, clearly labeled judgments that follow the **same request/response shape** as the public System One API, so the demo shows exactly how Jev would be used. Swapping in the real call later means replacing one function (section 8).
+**Jev (System One de TypeSafe) va simulado.** El equipo nunca ha usado Jev y no tiene acceso a TypeSafe para este evento. Decisión: juicios escritos a mano y rotulados con claridad, que siguen la **misma forma de pedido y respuesta** que la API pública de System One. Así la demo muestra exactamente cómo se usaría Jev. Pasar a la llamada real después significa reemplazar una sola función (sección 8).
 
-## 6. Decided design
+## 6. Diseño decidido
 
-### 6.1 Demo stage
+### 6.1 Escenario de la demo
 
-One page, built for a projector:
+Una sola página, pensada para proyector:
 
 ```
 ┌───────────┬────────────────────────────────────────────┬───────────┐
-│  Andrés   │  Payment graph (SVG)                       │   Rosa    │
-│  phone    │  Debit ─ FX lock ─ Watchdog ─ AML ─ Credit │   phone   │
-│ (compact) │  ......... async settlement lane ......... │  (simple) │
-│           │  [Watchdog view expands here when needed]  │           │
+│  Andrés   │  Grafo del pago (SVG)                      │   Rosa    │
+│  teléfono │  Débito ─ Tasa ─ Vigilante ─ AML ─ Crédito │  teléfono │
+│ (compacto)│  ...... carril de compensación diferida .. │ (sencillo)│
+│           │  [Aquí se abre la vista del vigilante]     │           │
 └───────────┴────────────────────────────────────────────┴───────────┘
-                  presenter controls: next beat · reset
+             controles del presentador: siguiente momento · reiniciar
 ```
 
-- Both phones are live UI on the same page, driven by one backend process with in-memory state.
-- Presenter controls advance the scripted beats and reset the synthetic data.
-- The backup video is a screen recording of this page running the beats.
+- Los dos teléfonos son interfaz real en la misma página, manejados por un solo proceso de backend con estado en memoria.
+- Los controles del presentador avanzan los momentos del guion y reinician los datos ficticios.
+- El video de respaldo es una grabación de pantalla de esta página corriendo los momentos.
 
-### 6.2 UI: chat-based, two levels
+### 6.2 Interfaz: chat con dos niveles
 
-- **The whole app is a conversation with Belo.** Each operation is a message; each answer is a button. Voice input is available in place of tapping.
-- **Two levels in the same chat:**
-  - *Simple* (Rosa): one question per message, large text, a voice button, explanations built on everyday examples.
-  - *Compact* (Andrés): denser messages and shortcuts.
-- **Level choice:** first-run question "¿Has usado antes una app de banco?". The user can switch at any time. Deterministic, no AI.
-- **Jars card:** shown when the user asks for their balance or when the app explains digital dollars. One jar for pesos, one for dollars; saving means moving money between jars.
-- **Everything happens in the chat:** onboarding, the watchdog pause, the advisor's profile question, and the scam report are all chat messages.
+- **Toda la app es una conversación con Belo.** Cada operación es un mensaje y cada respuesta, un botón. Se puede hablar en vez de tocar.
+- **Dos niveles en el mismo chat:**
+  - *Sencillo* (Rosa): una pregunta por mensaje, letra grande, botón de voz y explicaciones con ejemplos del día a día.
+  - *Compacto* (Andrés): mensajes más densos y atajos.
+- **Elección de nivel:** la primera vez se pregunta "¿Has usado antes una app de banco?", y se puede cambiar cuando se quiera. Es una regla fija, sin IA.
+- **Tarjeta de frascos:** aparece cuando la persona pregunta por su saldo o cuando la app explica qué es un dólar digital. Hay un frasco de pesos y uno de dólares; ahorrar es pasar plata de un frasco al otro.
+- **Todo pasa dentro del chat:** el registro, la pausa del vigilante, la pregunta de perfil del asesor y el reporte de estafa son mensajes del chat.
 
-Watchdog pause message (simple level):
+Mensaje de pausa del vigilante (nivel sencillo):
 
 ```
 ┌──────────────────────────────┐
@@ -136,186 +162,186 @@ Watchdog pause message (simple level):
 └──────────────────────────────┘
 ```
 
-### 6.3 Cross-border payment mechanism (thin)
+### 6.3 Mecanismo de pago entre países (liviano)
 
-The proposed mechanism, for the pitch and the animation:
+El mecanismo que proponemos, para el pitch y la animación:
 
-- **Pre-funded liquidity per country.** Belo holds balances in each country. The sender is debited, and the receiver is credited immediately from the destination-country pool.
-- **Async net settlement.** Cross-country rebalancing happens later in digital dollars, in batches, off the user's critical path. The user waits only as long as a local payment takes.
-- **Fewer rejections:**
-  - before sending, the destination key is validated and the masked holder name is shown, as Bre-B does;
-  - a payment to a phone number with no Belo account is **not rejected**; it becomes a **claimable payment** (section 6.4).
-- **In-path controls:** FX quote lock, AML/sanctions screening, and the watchdog.
+- **Plata ya ubicada en cada país.** Belo mantiene saldos propios en cada país. A quien envía se le debita, y a quien recibe se le acredita al instante desde el saldo del país de destino.
+- **Compensación neta diferida.** El cruce de plata entre países se hace después, en dólares digitales y por lotes, fuera del camino que espera la persona. Ella solo espera lo que tarda un pago local.
+- **Menos rechazos:**
+  - antes de enviar, se valida la llave de destino y se muestra el nombre enmascarado del titular, igual que en Bre-B;
+  - un pago a un número de celular sin cuenta Belo **no se rechaza**: se convierte en un **pago por reclamar** (sección 6.4).
+- **Controles en el camino:** tasa de cambio fijada, controles antilavado y de listas restrictivas, y el vigilante.
 
-**Simulated target timings.** Use these exact numbers everywhere and label them "simulated":
+**Tiempos meta simulados.** Usar exactamente estos números en todas partes, rotulados como "simulado":
 
-| Step | Target |
+| Paso | Meta |
 |---|---|
-| Debit (sender) | 300 ms |
-| FX quote lock | 40 ms |
-| Watchdog | 120 ms (budget < 200 ms) |
-| AML / sanctions screening | 80 ms |
-| Credit (receiver) | 200 ms |
-| **Total the receiver waits (existing account)** | **740 ms** |
-| Async settlement | batched, minutes (shown as a slow background lane) |
+| Débito (quien envía) | 300 ms |
+| Tasa de cambio fijada | 40 ms |
+| Vigilante | 120 ms (presupuesto < 200 ms) |
+| Antilavado / listas restrictivas | 80 ms |
+| Crédito (quien recibe) | 200 ms |
+| **Lo que espera quien recibe (con cuenta)** | **740 ms** |
+| Compensación diferida | por lotes, minutos (se muestra como un carril lento de fondo) |
 
-For a claimable payment, the graph stops at "Esperando a Rosa" after AML (540 ms) and runs Credit when the claim completes.
+En un pago por reclamar, el grafo se detiene en "Esperando a Rosa" después del control antilavado (540 ms) y corre el crédito cuando se completa el reclamo.
 
-### 6.4 Claimable payment (link)
+### 6.4 Pago por reclamar (link)
 
-- **Sender side.** When the destination phone number has no Belo account, the sender sees it before confirming. On confirm, the sender is debited and the amount is reserved in a **pending claim**.
-- **Receiver side.** The receiver gets a message with a link (simulated as a WhatsApp-style notification on Rosa's phone). The link opens the Belo chat; it never asks for passwords or card data.
-- **Claiming:**
-  1. simplified sign-up, with synthetic data;
-  2. a simulated one-time code sent to the destination number, to prove the receiver owns it;
-  3. the credit.
-- **Expiry.** An unclaimed payment is returned to the sender after a fixed period, by a product rule, not an agent. Not shown in the demo; mentioned in the pitch.
-- **Phishing risk.** The pitch acknowledges that fake claim links are a phishing risk. The demo's own scam education reinforces this: Belo never asks you to move your money or share codes over the phone.
+- **Lado de quien envía.** Si el número de destino no tiene cuenta Belo, quien envía lo ve antes de confirmar. Al confirmar, se le debita y el monto queda reservado como **pago por reclamar**.
+- **Lado de quien recibe.** Le llega un mensaje con un link, simulado como un aviso estilo WhatsApp en el teléfono de Rosa. El link abre el chat de Belo y nunca pide contraseñas ni datos de tarjeta.
+- **El reclamo:**
+  1. registro simplificado, con datos inventados;
+  2. código de un solo uso simulado al número de destino, para probar que es de quien recibe;
+  3. el crédito.
+- **Vencimiento.** Si nadie reclama el pago, se devuelve a quien lo envió después de un plazo fijo, por una regla del producto y no por un agente. No se muestra en la demo; se menciona en el pitch.
+- **Riesgo de phishing.** El pitch reconoce que los links falsos de reclamo son un riesgo de phishing. La educación antiestafa de la propia demo lo refuerza: Belo nunca te pide por teléfono que muevas tu plata ni que compartas códigos.
 
-### 6.5 Watchdog (deep)
+### 6.5 Vigilante (a fondo)
 
-**Shape.** A pure TypeScript module with no framework imports:
+**Forma.** Un módulo puro de TypeScript, sin imports del framework:
 `evaluate(payment, context) → { level, score, reasons[] }`
-Rule weights and level thresholds live in one config table. The module runs on the payment's hot path; Jev never does.
+Los pesos de las reglas y los umbrales de cada nivel viven en una sola tabla de configuración. El módulo corre en el camino rápido del pago; Jev nunca.
 
-**Rules.** Authorized push payment scams, the focus:
+**Reglas para estafas de pago autorizado, el foco:**
 
-| ID | Signal |
+| ID | Señal |
 |---|---|
-| R1 | First payment from this user to this key |
-| R2 | Amount ≥ 80% of available balance |
-| R3 | Amount well above the user's usual payments (or user has little history) |
-| R4 | Unusual hour for this user (default for new users: 22:00–06:00) |
-| R5 | Velocity: several outgoing payments in a short window |
-| R6 | Destination key reported by other users. Two tiers: *reported, unverified* gets a moderate weight; *confirmed by compliance* gets a high weight |
-| R7 | Destination key registered very recently |
+| R1 | Primer pago de esta persona a esta llave |
+| R2 | Monto ≥ 80% del saldo disponible |
+| R3 | Monto muy por encima de los pagos habituales de la persona (o la persona tiene poco historial) |
+| R4 | Hora inusual para esta persona (para usuarios nuevos: 22:00–06:00) |
+| R5 | Velocidad: varios pagos salientes en poco tiempo |
+| R6 | Llave de destino reportada por otros usuarios. Dos niveles: *reportada, sin verificar* pesa moderado; *confirmada por cumplimiento* pesa alto |
+| R7 | Llave de destino registrada hace muy poco |
 
-Account-takeover rules, 1–2 only:
+Reglas de robo de cuenta, solo una o dos:
 
-| ID | Signal |
+| ID | Señal |
 |---|---|
-| T1 | New device combined with a sensitive action shortly after |
-| T2 | PIN/credential reset followed by a payout shortly after |
+| T1 | Dispositivo nuevo seguido poco después de una acción sensible |
+| T2 | Cambio de PIN o credencial seguido poco después de un envío de plata |
 
-**Levels:**
+**Niveles:**
 
-| Level | User experience |
+| Nivel | Lo que vive la persona |
 |---|---|
-| `allow` | No friction. |
-| `notice` | One-line soft notice in the chat; user continues with one tap. |
-| `pause` | The question message shown above. The user can answer with buttons or with voice/text. |
-| `hold` | The payment is held, not executed. The user can cancel or call their trusted contact or Belo. The trusted contact is notified. A hold never moves money. Releasing a hold is out of scope for the demo. |
+| `allow` | Sin fricción. |
+| `notice` | Un aviso suave de una línea en el chat; la persona sigue con un toque. |
+| `pause` | El mensaje con la pregunta, como el de arriba. La persona puede responder con los botones o con voz o texto. |
+| `hold` | El pago queda retenido, no se ejecuta. La persona puede cancelarlo o llamar a su contacto de confianza o a Belo, y el contacto de confianza recibe un aviso. Una retención nunca mueve plata. Liberar una retención queda fuera del alcance de la demo. |
 
-**Escalation from `pause`:**
-- If the user taps "Sí", the payment escalates to `hold`.
-- If the user answers in their own words, the answer goes to the Jev step (section 6.6). Policy in code: impersonation ≥ 0.8, **or** a scam type other than `none` with probability ≥ 0.7, escalates to `hold`. Otherwise the user may proceed with one confirmation.
-- If the text matches no scenario, the result falls back to rules only and the buttons.
+**Cómo se escala desde `pause`:**
+- Si la persona toca "Sí", el pago pasa a `hold`.
+- Si responde con sus palabras, la respuesta pasa al paso de Jev (sección 6.6). La política, en código: suplantación ≥ 0,8, **o** un tipo de estafa distinto de `none` con probabilidad ≥ 0,7, pasa a `hold`. Si no, la persona puede seguir con una confirmación.
+- Si el texto no coincide con ningún escenario, se decide solo con las reglas y quedan los botones.
 
-**Explanations.** Every reason maps to a fixed, human-written sentence per UI level. No generative text anywhere.
+**Explicaciones.** Cada motivo corresponde a una frase fija, escrita por una persona, para cada nivel de la interfaz. En ningún lugar hay texto generado.
 
-**Trusted contact.** Rosa names Andrés. He is notified on `pause`→`hold` and on scam reports. He never approves, blocks, or moves anything.
+**Contacto de confianza.** Rosa elige a Andrés. Él recibe un aviso cuando un pago pasa de `pause` a `hold` y cuando hay un reporte de estafa. Nunca aprueba, bloquea ni mueve nada.
 
-### 6.6 Jev judgments (simulated)
+### 6.6 Juicios de Jev (simulados)
 
-Jev (TypeSafe's System One model) returns typed judgments with probabilities, not text.
+Jev, el modelo System One de TypeSafe, devuelve juicios tipados con probabilidades, no texto.
 
-**On the pause answer.** One request, three questions over the same state (the user's words plus payment context):
-- `noul` (yes/no probability): does the description indicate someone impersonating a bank, Belo, a government agency, or an authority?
-- `choice`: scam type, one of `impersonation_official`, `family_emergency`, `investment_promise`, `fake_purchase`, `romance`, `none`.
-- `score`: pressure/urgency described, on levels none / low / medium / high.
+**Sobre la respuesta a la pausa.** Un pedido con tres preguntas sobre el mismo estado (las palabras de la persona y el contexto del pago):
+- `noul` (probabilidad de sí o no): ¿la descripción indica que alguien se hace pasar por un banco, por Belo, por una entidad del gobierno o por una autoridad?
+- `choice` (tipo de estafa), una de: `impersonation_official`, `family_emergency`, `investment_promise`, `fake_purchase`, `romance`, `none`.
+- `score` (presión o urgencia descrita), en los niveles ninguna / baja / media / alta.
 
-**On the scam report** (section 6.7):
-- `choice`: scam type, same options.
-- **Select, don't generate.** Code extracts candidate amounts, dates, and keys from the transcript. Jev selects which candidate is the amount and the key involved.
+**Sobre el reporte de estafa** (sección 6.7):
+- `choice`: tipo de estafa, con las mismas opciones.
+- **Elegir en vez de generar.** El código extrae de la transcripción los montos, fechas y llaves candidatos, y Jev elige cuál es el monto y cuál la llave del caso.
 
-**On the advisor:**
-- `score` loss tolerance from the user's free-text answer, on five ordered levels.
+**Sobre el asesor:**
+- `score`: tolerancia a perder plata según la respuesta libre de la persona, en cinco niveles ordenados.
 
-**Scripted mode, the only mode for this event.** A fixtures file holds, per scripted scenario, the request that would be sent and a hand-written response. Both follow the shape in the public TypeSafe API docs (docs.typesafe.ai), which the builder must read.
+**Modo guion, el único modo para este evento.** Un archivo de fixtures guarda, para cada escenario del guion, el pedido que se enviaría y una respuesta escrita a mano. Ambos siguen la forma de la documentación pública de la API de TypeSafe (docs.typesafe.ai), que quien construye debe leer.
 
-- **Matching:** input is matched to a scenario by keyword sets, not exact phrases. Example: a mention of a call plus "Belo", "banco", or "asesor" maps to the impersonation scenario. This tolerates speech-recognition errors. Anything that matches no scenario triggers the rules-only fallback.
-- **Backup input:** the presenter can always type the scripted phrase instead of speaking it.
-- **Honest label**, on every judgment: *"Respuesta simulada de Jev (ilustrativa). En producción: una llamada a la API de System One."* Never "grabada" or "en vivo".
+- **Coincidencia por palabras clave.** La entrada se asigna a un escenario por conjuntos de palabras clave, no por frases exactas. Por ejemplo, una mención de una llamada junto con "Belo", "banco" o "asesor" corresponde al escenario de suplantación. Así se toleran errores del reconocimiento de voz. Lo que no coincide con ningún escenario cae en la decisión solo con reglas.
+- **Entrada de respaldo.** El presentador siempre puede escribir la frase del guion en vez de decirla.
+- **Rótulo honesto en cada juicio:** *"Respuesta simulada de Jev (ilustrativa). En producción: una llamada a la API de System One."* Nunca dice "grabada" ni "en vivo".
 
-**Watchdog view.** When the graph's Vigilante node expands, it shows:
-- which rules fired and their weights,
-- the score and level,
-- the question that would be sent to Jev,
-- the typed answers with probabilities, with the label above,
-- the policy line that decided.
+**Vista del vigilante.** Cuando se abre el nodo Vigilante del grafo, muestra:
+- qué reglas se activaron y su peso,
+- el puntaje y el nivel,
+- la pregunta que se le enviaría a Jev,
+- las respuestas tipadas con sus probabilidades, con el rótulo de arriba,
+- la línea de política que decidió.
 
-### 6.7 Scam report (victim path)
+### 6.7 Reporte de estafa (camino de la víctima)
 
-1. The user taps "Me estafaron" in the chat.
-2. The user tells what happened in a voice note, or types it.
-3. Code builds the case. The timeline and amount come from the synthetic ledger; the scam type and the selected fields come from the simulated Jev step.
-4. The user reviews and edits the case card, then submits.
-5. Submitting triggers these, all simulated:
-   - The case is filed with Belo.
-   - If the destination is a Belo account, a **preventive hold request is queued for human compliance review**. The UI says "en revisión por el equipo de Belo". It is never triggered automatically by Jev or by the report alone.
-   - The destination key becomes *reported, unverified* for rule R6.
-   - A pre-filled complaint text for the Fiscalía is generated. The user sends it herself, by copy or download.
-   - The trusted contact is notified.
+1. La persona toca "Me estafaron" en el chat.
+2. Cuenta lo que pasó en una nota de voz, o lo escribe.
+3. El código arma el caso. La cronología y el monto salen del libro contable ficticio; el tipo de estafa y los datos elegidos salen del paso simulado de Jev.
+4. La persona revisa y corrige la tarjeta del caso, y la envía.
+5. Al enviarla pasa lo siguiente, todo simulado:
+   - Se registra el caso en Belo.
+   - Si el destino es una cuenta Belo, se pone en cola una **solicitud de retención preventiva para revisión humana de cumplimiento**. La interfaz dice "en revisión por el equipo de Belo". Nunca la dispara Jev, ni el reporte por sí solo.
+   - La llave de destino pasa a *reportada, sin verificar* para la regla R6.
+   - Se genera el texto de una denuncia prellenada para la Fiscalía. La persona la envía ella misma, copiándola o descargándola.
+   - El contacto de confianza recibe un aviso.
 
-### 6.8 Advisor (thin)
+### 6.8 Asesor (liviano)
 
-- One short risk-profile question per visit, answered in free text. The simulated Jev step scores loss tolerance, and code averages the answers into a profile: conservative, moderate, or bold. The user can see and correct it.
-- Goal-based: the user states a goal, and the advisor shows a simulator comparing saving in pesos against digital dollars, using **synthetic** rates with no forecasts. It adds an education card on building credit history with a small amount.
-- Every action requires the user's confirmation. A visible disclaimer says this is education and simulation, not personalized investment advice.
+- **Perfil de a poco.** En cada visita hay una pregunta corta de perfil de riesgo, que la persona responde con sus palabras. El paso simulado de Jev puntúa la tolerancia a perder plata, y el código promedia las respuestas en un perfil: conservador, moderado o arriesgado. La persona puede verlo y corregirlo.
+- **Metas.** La persona dice qué meta tiene, y el asesor muestra un simulador que compara ahorrar en pesos con ahorrar en dólares digitales, con tasas **ficticias** y sin pronósticos. Suma una tarjeta educativa sobre cómo empezar un historial de crédito con un monto pequeño.
+- **Confirmación.** Toda acción requiere que la persona la confirme. Un aviso visible dice que esto es educación y simulación, no asesoría de inversión personalizada.
 
-### 6.9 Data
+### 6.9 Datos
 
-- Synthetic, in-memory state, seeded at start and resettable from the presenter controls: users, balances, ledger, keys, pending claims, reported-key list, and Jev fixtures.
-- Keys and phone numbers are obviously fake, such as `@rosa.demo`. No real phone numbers, IDs, or names.
+- Estado ficticio en memoria, cargado al arrancar y reiniciable desde los controles del presentador. Incluye usuarios, saldos, libro contable, llaves, pagos por reclamar, lista de llaves reportadas y fixtures de Jev.
+- Las llaves y números de celular son claramente falsos, como `@rosa.demo`. Ningún número, documento ni nombre real.
 
-### 6.10 Voice
+### 6.10 Voz
 
-- Browser speech recognition, which is reliable only in Chromium-based browsers and sends audio to the browser vendor.
-- A typed fallback is always present.
-- Spanish (Colombia) recognition quality is unverified; test it early on the demo laptop.
-- The demo laptop must run Chrome. The backup video covers a failure.
+- Se usa el reconocimiento de voz del navegador. Solo funciona bien en navegadores basados en Chromium, y envía el audio al fabricante del navegador.
+- Siempre hay opción de escribir.
+- No está verificado qué tan bien reconoce el español de Colombia; hay que probarlo temprano en el laptop de la demo.
+- El laptop de la demo debe usar Chrome. El video de respaldo cubre una falla.
 
-## 7. Priorities and work split
+## 7. Prioridades y reparto del trabajo
 
-Priorities are my call; the team can reorder.
+Las prioridades son decisión mía; el equipo puede reordenarlas.
 
-| Priority | Scope |
+| Prioridad | Alcance |
 |---|---|
-| P0 | Demo stage; chat UI with both levels; beats 1–4 (claimable payment, first time with jars, speed, scam stopped); watchdog module with tests; scripted Jev mode and watchdog view. |
-| P1 | Beat 5 (scam report). Rewrite the README so the public repo matches this design; the current README promises agentic AI that notifies authorities, which contradicts the anti-goals. Record the backup video. |
-| P2 | Beat 6 (advisor). |
+| P0 | Escenario de la demo; chat con los dos niveles; momentos 1 a 4 (pago por reclamar, primera vez con frascos, velocidad, estafa frenada); módulo del vigilante con pruebas; modo guion de Jev y vista del vigilante. |
+| P1 | Momento 5 (reporte de estafa). Reescribir el README para que el repo público coincida con este diseño: el actual promete IA agéntica que notifica a las autoridades, y eso contradice "lo que no puede pasar". Grabar el video de respaldo. |
+| P2 | Momento 6 (asesor). |
 
-Suggested split for two engineers, four days. The builder may adjust it.
+Reparto sugerido para dos ingenieros en cuatro días; quien construye puede ajustarlo.
 
-- **Engineer 1, backend and logic:** watchdog module and tests, synthetic state and ledger, claimable payments, Jev fixtures and matching, scam report.
-- **Engineer 2, UI and stage:** stage page and presenter controls, chat UI with both levels, jars card, payment graph animation, watchdog view.
-- **Shared, last day (Mon 2026-11-30):** rehearsal, backup video, README.
+- **Ingeniero 1, backend y lógica:** módulo del vigilante y sus pruebas, estado ficticio y libro contable, pagos por reclamar, fixtures de Jev y coincidencia por palabras clave, reporte de estafa.
+- **Ingeniero 2, interfaz y escenario:** página del escenario y controles del presentador, chat con los dos niveles, tarjeta de frascos, animación del grafo del pago y vista del vigilante.
+- **Juntos, el último día (lunes 2026-11-30):** ensayo, video de respaldo y README.
 
-## 8. Future: live Jev
+## 8. A futuro: Jev en vivo
 
-Not in scope for this event. When TypeSafe access exists:
+Queda fuera de alcance para este evento. Cuando haya acceso a TypeSafe:
 
-- Only the function that obtains judgments changes: it calls the System One endpoint server-side instead of reading fixtures. The API key stays server-side.
-- Labels then switch from "simulada" to the real source.
-- Same fallback as before: on error or timeout, the result falls back to rules only.
+- Solo cambia la función que obtiene los juicios: llama al endpoint de System One desde el servidor en vez de leer los fixtures. La clave de API se queda en el servidor.
+- Los rótulos pasan de "simulada" a la fuente real.
+- El respaldo es el mismo: ante un error o una demora, se decide solo con las reglas.
 
-The pitch mentions this as the next step.
+El pitch lo menciona como el siguiente paso.
 
-## 9. How each rubric criterion is addressed
+## 9. Cómo se atiende cada criterio de la rúbrica
 
-| Criterion | Weight | How |
+| Criterio | Peso | Cómo |
 |---|---|---|
-| Impact | 30% | Real pains in one story: sending to someone who has no account; a costly, slow remittance; an unbanked first-time user; the scam that targets elderly users; reporting after a loss. |
-| Innovation | 20% | Watchdog asks instead of blocking. The AI's role is designed and shown with **simulated** typed judgments, labeled as such, combined by explicit policy: the AI has a clear role but is never the decider, and the live integration point is one function. Claimable payments instead of rejections. Trusted contact. Shared reported-key signal with a two-tier review. |
-| Technical feasibility | 20% | Full story runs end to end on a real server with state. Tested rules engine. Graceful fallback when language understanding fails. AI judgments are simulated for this event. |
-| Implementation feasibility | 20% | Watchdog is a framework-free module. Mechanism built on concepts Belo already uses (local pools, digital dollars). Regulatory framing is explicit. The Jev integration point is one function. |
-| Presentation | 10% | One persona, one stage page, a visible "why it's fast" and "why it paused", and a backup video. |
+| Impacto | 30% | Dolores reales en una sola historia: enviar a alguien sin cuenta; una remesa cara y lenta; una persona sin banco que usa la app por primera vez; la estafa que apunta a personas mayores; reportar después de perder plata. |
+| Innovación | 20% | El vigilante pregunta en vez de bloquear. El papel de la IA está diseñado y se muestra con juicios tipados **simulados**, rotulados como tales, que se combinan con una política explícita: la IA tiene un papel claro pero nunca decide, y la integración en vivo es una sola función. Pagos por reclamar en vez de rechazos. Contacto de confianza. Señal compartida de llaves reportadas, con revisión en dos niveles. |
+| Viabilidad técnica | 20% | La historia completa corre de punta a punta en un servidor real con estado. Motor de reglas probado. Respaldo elegante cuando falla la comprensión de lenguaje. Los juicios de IA son simulados para este evento. |
+| Viabilidad de implementación | 20% | El vigilante es un módulo sin dependencias del framework. El mecanismo se basa en conceptos que Belo ya usa (saldos locales, dólares digitales). La regulación está explícita. La integración con Jev es una sola función. |
+| Presentación | 10% | Una persona protagonista, una sola página de escenario, un "por qué es rápido" y un "por qué se pausó" visibles, y un video de respaldo. |
 
-## 10. Left to the builder
+## 10. Lo que decide quien construye
 
-- Exact rule weights and thresholds, tuned so the scripted scenarios land on their intended levels.
-- File layout, component structure, styling and palette. Visual direction: minimalist chat, warm and calm, no scare colors.
-- How the backend state reaches both phones on the stage page.
-- Test runner: prefer something with no new dependency, such as Node's built-in runner.
-- Defining the project's verification command and running the same command in CI. The repo has none yet.
-- Exact wording of all user-facing Spanish copy.
+- Los pesos y umbrales exactos de las reglas, ajustados para que cada escenario del guion caiga en el nivel que le corresponde.
+- La organización de archivos, la estructura de componentes, el estilo y la paleta. Dirección visual: chat minimalista, cálido y tranquilo, sin colores de alarma.
+- Cómo llega el estado del backend a los dos teléfonos de la página del escenario.
+- El ejecutor de pruebas: preferir uno sin dependencias nuevas, como el ejecutor que trae Node.
+- Definir el comando de verificación del proyecto y correr ese mismo comando en CI. El repo todavía no tiene uno.
+- El texto exacto de todo lo que lee la persona usuaria en español.
