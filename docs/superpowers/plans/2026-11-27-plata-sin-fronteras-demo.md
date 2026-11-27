@@ -225,6 +225,7 @@ test('only positive integers are valid amounts', () => {
 - `src/app/page.tsx` muestra `formatMoney({ currency: 'COP', minor: 800000 })` importado desde `'../domain/money.ts'`.
 
 - [ ] **Paso 8: Correr `npm run verify`.** Esperado: typecheck sin errores, 3 pruebas en PASS y build OK. Si el build rechaza los imports con `.ts`, hay que resolverlo aquí antes de seguir, porque todas las tareas dependen de eso.
+- [ ] **Paso 8b: Simular el CI desde cero con `rm -rf .next && npm run verify`.** Esperado: PASS. Si el `typecheck` falla porque `next-env.d.ts` apunta a archivos de `.next/` que aún no existen, hay dos salidas: reordenar `verify` para que el build corra antes del typecheck, o generar los tipos primero. Se deja anotado cuál se eligió.
 
 - [ ] **Paso 9: CI en `.github/workflows/verify.yml`**
 
@@ -729,8 +730,12 @@ export function callContact(state: DemoState, userId: UserId): void;
 6. **Llamada al contacto.** `callContact` agrega "Llamando a {contacto}… (simulado)" en el chat de quien llama y "{nombre} te está llamando" en el del contacto.
 
 - [ ] **Paso 1: Pruebas que fallan.**
-  - **Ayudante de prueba `registeredRosa()`:** parte de `seedState()`, deja a Rosa registrada y dueña de `tel:rosa.demo` (`registeredAt = now - 5 min`), con `balances.COP = 880_000`, y pone el reloj en 22:40 de Bogotá: `Date.parse('2026-11-29T03:40:00Z')`.
-  - **`allowed payment completes`:** Andrés envía US$20 a `tel:rosa.demo` con el reloj a las 10:00 de Bogotá.
+  - **Ayudante de prueba `registeredRosa()`:** parte de `seedState()` y deja todo como después del momento 2:
+    - Rosa registrada y dueña de `tel:rosa.demo` (`registeredAt = now - 5 min`), con `balances.COP = 880_000`;
+    - un pago `completed` de US$200 de Andrés a `tel:rosa.demo`, como en el momento 1, para que R1 no se active en su segundo envío;
+    - el reloj en 22:40 de Bogotá: `Date.parse('2026-11-29T03:40:00Z')`.
+  - **`allowed payment completes`:** Andrés envía US$20 a `tel:rosa.demo` con el reloj a las 10:00 de Bogotá (`Date.parse('2026-11-28T15:00:00Z')`).
+    - Solo se activa R7, así que el puntaje es 10 y el nivel `allow`.
     - Estado `completed`; `andres.balances.USD` baja 2000; `rosa.balances.COP` sube 80_000.
     - Pasos de la traza: `['fx','watchdog','aml','debit','credit']`, todos en `done`, y la suma de `ms` es 740.
   - **`pause moves no money`:** Rosa envía 880_000 COP a `@seguridad.belo`.
@@ -740,11 +745,13 @@ export function callContact(state: DemoState, userId: UserId): void;
   - **`pause yes → held, no money moves, contact notified`:** el último mensaje de Andrés contiene `Rosa`.
   - **`pause text impersonation → held with judgments`:** `payment.pause.decision === 'hold'` y `payment.pause.judgments.impersonation === 0.94`.
   - **`pause text unmatched → still paused, buttons again`:** `decision === 'buttons'`, estado `paused` y el último mensaje vuelve a tener `Sí` y `No`.
-  - **`notice then confirm completes; cancel moves nothing`.**
+  - **`notice then confirm completes; cancel moves nothing`:** Rosa envía 150_000 COP a `@ofertas.tienda` con el reloj del ayudante (22:40). Se activan R1, R3 y R4: puntaje 40, nivel `notice`, estado `awaiting-confirm`.
+    - Al confirmar, queda `completed` y Rosa baja 150_000.
+    - En una segunda corrida, al cancelar queda `cancelled` y los saldos no cambian.
   - **`held payment cannot be confirmed`:** `confirmPayment` sobre `held` no cambia saldos ni estado.
   - **`invalid amounts are rejected`** (foco 2): para `0`, `-1`, `1.5` y `880_001`, `sendPayment` devuelve `null`, `payments.length` no cambia, los saldos no cambian y se agrega 1 mensaje a Rosa.
   - **`unknown key is rejected`.**
-  - **`same send action id twice creates one payment`** (foco 1): vía `dispatch` con el mismo `id`; `payments.length` sube 1 y el saldo baja una sola vez.
+  - **`same send action id twice creates one payment`** (foco 1): el mismo envío permitido de Andrés (US$20 a `tel:rosa.demo` a las 10:00) se despacha dos veces vía `dispatch` con el mismo `id`. `payments.length` sube 1 y `andres.balances.USD` baja 2000 una sola vez.
 - [ ] **Paso 2: Correr `npm test`.** Esperado: FALLA.
 - [ ] **Paso 3: Implementar `payments.ts`** con las firmas de arriba, y despachar las 6 acciones desde `actions.ts`.
 - [ ] **Paso 4: Correr `npm test`.** Esperado: PASS.
@@ -801,6 +808,11 @@ export function runBeat(state: DemoState, beat: BeatId): void; // in actions.ts
 | `b4-scam-attempt` | `2026-11-29T03:40:00Z` (22:40 en Bogotá) | `send` de Rosa a `@seguridad.belo` por **todo su saldo en COP** |
 | `b5-fake-purchase` | `2026-11-29T16:00:00Z` | `send` de Rosa por 150_000 COP a `@ofertas.tienda` |
 
+Los momentos `b1` y `b3` repiten los botones del chat de Andrés. Para que tocar los dos no duplique el envío:
+- `b1` no hace nada si ya existe un pago de Andrés a `tel:rosa.demo`;
+- `b3` no hace nada si ya existen dos;
+- cuando un momento corre, marca como `answered` el mensaje de Andrés que tiene el botón equivalente.
+
 - [ ] **Paso 1: Pruebas que fallan**
   - **`send to unregistered phone creates a claim`:** el estado es `pending-claim`; la suma de `ms` en `done` es 540; el último paso es `{ step: 'credit', status: 'waiting' }`; `claims.length` es 1; el último mensaje de Rosa trae la card `whatsapp-link`; Andrés baja 20000 en USD.
   - **`open-claim asks the level question`:** el último mensaje de Rosa tiene botones con las etiquetas `['Sí', 'No']`.
@@ -810,6 +822,7 @@ export function runBeat(state: DemoState, beat: BeatId): void; // in actions.ts
   - **`keep-in USD converts all COP`:** con 800_000 COP, quedan USD 20000 y COP 0.
   - **`full story reaches the pause at beat 4`:** corre vía `dispatch` la secuencia `reset → beat b1 → open-claim → set-level simple → verify-claim 4821 → keep-in COP → beat b3 → beat b4`. El último pago queda `paused`, con `watchdog.score` 70 y las razones `['R1','R2','R3','R4','R7']`.
   - **`beat 5 after the story lands in notice`:** luego de lo anterior, el `beat b5` deja el último pago en `awaiting-confirm`.
+  - **`beat b1 after the chat button does not send twice`:** se despacha el botón "Enviar US$200" del chat de Andrés y después `beat b1`. Queda un solo pago a `tel:rosa.demo` y un solo reclamo.
 - [ ] **Paso 2: Correr `npm test`.** Esperado: FALLA.
 - [ ] **Paso 3: Implementar `claims.ts`, la rama sin dueño en `payments.ts` y `runBeat`** en `actions.ts`.
 - [ ] **Paso 4: Correr `npm test`.** Esperado: PASS. Luego `npm run verify`, también PASS.
