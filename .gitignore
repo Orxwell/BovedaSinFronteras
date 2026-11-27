@@ -1,1 +1,9 @@
 .superpowers/
+
+# Local agent harness
+/.claude/
+/AGENTS.md
+/docs/AGENT_TEAM.md
+/docs/adr/ADR-000-template.md
+/docs/progress/
+/scripts/init.sh
