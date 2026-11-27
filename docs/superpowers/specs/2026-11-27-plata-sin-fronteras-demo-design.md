@@ -194,7 +194,11 @@ Jev (TypeSafe's System One model) returns typed judgments with probabilities, no
 **On the advisor:**
 - `score` loss tolerance from the user's free-text answer, on five ordered levels.
 
-**Recorded mode (default).** A fixtures file holds, per scripted phrase, the request that would be sent and the recorded response, in the real API's shape. The builder must take that shape from the current TypeSafe API docs. Input is matched against scripted phrases after normalization; anything else triggers the rules-only fallback. The UI labels every recorded judgment: *"Respuesta de ejemplo de Jev (grabada). En producción: una llamada a la API de System One."*
+**Scripted mode (default).** A fixtures file holds, per scripted scenario, the request that would be sent and the response, in the real API's shape. The builder must take that shape from the current TypeSafe API docs.
+
+- **Matching:** input is matched to a scenario by keyword sets, not exact phrases. Example: a mention of a call plus "Belo", "banco", or "asesor" maps to the impersonation scenario. This tolerates speech-recognition errors. Anything that matches no scenario triggers the rules-only fallback. *(Builder-check resolution, my call.)*
+- **Backup input:** the presenter can always type the scripted phrase instead of speaking it.
+- **Honest labels.** If the fixture values were captured from real Jev calls, the label reads *"Respuesta de Jev grabada. En producción: una llamada a la API de System One."* If they were written by hand, it reads *"Respuesta simulada de Jev (ilustrativa). En producción: una llamada a la API de System One."* Hand-written values must never be labeled "grabada". *(Builder-check resolution, my call.)*
 
 **Watchdog view.** When the graph's Vigilante node expands, it shows:
 - which rules fired and their weights,
