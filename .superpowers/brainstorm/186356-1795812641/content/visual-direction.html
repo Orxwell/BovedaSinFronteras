@@ -1,0 +1,145 @@
+<style>
+  .dir { margin-bottom: 1.5rem; }
+  .pair { display: flex; gap: 1.25rem; flex-wrap: wrap; align-items: flex-start; margin-top: .75rem; }
+  .who { font-size: .75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .04em; margin-bottom: .35rem; }
+  .phone { width: 220px; height: 420px; border-radius: 28px; border: 8px solid #1d1d1f; background: #fffdf8; color: #1d1d1f; overflow: hidden; display: flex; flex-direction: column; font-family: system-ui, sans-serif; }
+  .phone .bar { height: 22px; font-size: 10px; display: flex; justify-content: space-between; padding: 4px 14px 0; color: #555; }
+  .phone .body { flex: 1; padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 10px; }
+  .big { font-size: 22px; font-weight: 700; line-height: 1.2; }
+  .huge { font-size: 30px; font-weight: 800; line-height: 1.1; }
+  .small { font-size: 11px; color: #666; }
+  .btn { border-radius: 16px; padding: 14px; font-size: 17px; font-weight: 700; text-align: center; }
+  .btn.p { background: #0b6e4f; color: #fff; }
+  .btn.s { background: #e9f3ee; color: #0b6e4f; }
+  .mic { margin-top: auto; align-self: center; width: 54px; height: 54px; border-radius: 50%; background: #0b6e4f; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+  .bubble { background: #e9f3ee; border-radius: 18px 18px 18px 4px; padding: 12px; }
+  .bubble.me { background: #0b6e4f; color: #fff; border-radius: 18px 18px 4px 18px; align-self: flex-end; }
+  .row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 7px 0; border-bottom: 1px solid #eee; }
+  .chip { font-size: 10px; background: #e9f3ee; color: #0b6e4f; border-radius: 8px; padding: 2px 6px; }
+  .jars { display: flex; gap: 12px; justify-content: center; margin: 6px 0; }
+  .jar { width: 78px; height: 110px; border: 3px solid #0b6e4f; border-radius: 14px 14px 22px 22px; position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+  .jar .fill { position: absolute; bottom: 0; left: 0; right: 0; background: #b9dccb; }
+  .jar span { position: relative; font-size: 13px; font-weight: 700; padding-bottom: 6px; }
+  .jars.mini .jar { width: 48px; height: 60px; border-width: 2px; }
+  .jars.mini .jar span { font-size: 9px; }
+  .note { font-size: .85rem; color: var(--text-secondary); margin-top: .5rem; max-width: 720px; }
+</style>
+
+<h2>¿Qué dirección visual te convence para "Tu primera vez"?</h2>
+<p class="subtitle">Mismo momento en las tres: a Rosa le llegan $800.000 de Andrés. Izquierda, Rosa en modo sencillo. Derecha, Andrés en modo compacto. Haz clic en la que prefieras (o en varias si mezclarías).</p>
+
+<div class="options" data-multiselect>
+
+  <div class="option dir" data-choice="a-chat" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Conversación</h3>
+      <p>La app se ve como un chat. Cada operación es un mensaje y cada respuesta, un botón. Rosa ya sabe usar WhatsApp, así que no tiene que aprender nada nuevo.</p>
+      <div class="pair">
+        <div>
+          <div class="who">Rosa · sencillo</div>
+          <div class="phone"><div class="bar"><span>9:41</span><span>Belo</span></div>
+            <div class="body">
+              <div class="bubble"><div class="big">Andrés te mandó $800.000</div><div class="small">Llegó hace un momento</div></div>
+              <div class="bubble"><div style="font-size:16px">¿Dónde los quieres guardar?</div></div>
+              <div class="btn p">En pesos</div>
+              <div class="btn s">En dólares</div>
+              <div class="mic">Hablar</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="who">Andrés · compacto</div>
+          <div class="phone"><div class="bar"><span>9:41</span><span>Belo</span></div>
+            <div class="body" style="gap:6px">
+              <div class="bubble me" style="font-size:13px">Enviaste $200 USD a Mamá</div>
+              <div class="small" style="align-self:flex-end">Recibido en 4 s · tasa fijada</div>
+              <div class="bubble" style="font-size:13px">Mamá lo guardó en pesos</div>
+              <div class="small" style="margin-top:auto">Escribe o elige: Enviar · Recibir · Ahorrar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option dir" data-choice="b-frascos" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Frascos</h3>
+      <p>La plata se ve como frascos: uno de pesos y otro de dólares. Guardar es pasar plata de un frasco al otro. Es una idea muy concreta para quien nunca vio un "dólar digital".</p>
+      <div class="pair">
+        <div>
+          <div class="who">Rosa · sencillo</div>
+          <div class="phone"><div class="bar"><span>9:41</span><span>Belo</span></div>
+            <div class="body">
+              <div class="big">Llegaron $800.000 de Andrés</div>
+              <div class="jars">
+                <div class="jar"><div class="fill" style="height:80%"></div><span>Pesos</span></div>
+                <div class="jar"><div class="fill" style="height:10%"></div><span>Dólares</span></div>
+              </div>
+              <div style="font-size:15px;text-align:center">Toca un frasco para pasar plata</div>
+              <div class="mic">Hablar</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="who">Andrés · compacto</div>
+          <div class="phone"><div class="bar"><span>9:41</span><span>Belo</span></div>
+            <div class="body" style="gap:6px">
+              <div class="small">Saldo total</div>
+              <div style="font-size:20px;font-weight:700">US$ 1.240</div>
+              <div class="jars mini">
+                <div class="jar"><div class="fill" style="height:30%"></div><span>CLP</span></div>
+                <div class="jar"><div class="fill" style="height:70%"></div><span>USD</span></div>
+                <div class="jar"><div class="fill" style="height:20%"></div><span>Meta</span></div>
+              </div>
+              <div class="row"><span>A Mamá · US$ 200</span><span class="chip">4 s</span></div>
+              <div class="row"><span>Cliente · US$ 650</span><span class="chip">recibido</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option dir" data-choice="c-pregunta" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Una pregunta grande</h3>
+      <p>Cada pantalla trae una sola pregunta en letra gigante y dos botones grandes. Es lo más minimalista: solo tipografía, sin iconos ni menús.</p>
+      <div class="pair">
+        <div>
+          <div class="who">Rosa · sencillo</div>
+          <div class="phone"><div class="bar"><span>9:41</span><span>Belo</span></div>
+            <div class="body">
+              <div class="small" style="font-size:14px">Andrés te mandó</div>
+              <div class="huge">$800.000</div>
+              <div style="font-size:20px;font-weight:600;margin-top:8px">¿Dónde los guardas?</div>
+              <div class="btn p" style="margin-top:auto">En pesos</div>
+              <div class="btn s">En dólares</div>
+              <div class="small" style="text-align:center">¿Qué es un dólar digital? Toca aquí</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="who">Andrés · compacto</div>
+          <div class="phone"><div class="bar"><span>9:41</span><span>Belo</span></div>
+            <div class="body" style="gap:4px">
+              <div style="font-size:24px;font-weight:800">US$ 1.240</div>
+              <div class="small">CLP 310.000 · USD 930</div>
+              <div style="display:flex;gap:6px;margin:8px 0">
+                <div class="btn p" style="flex:1;padding:8px;font-size:12px">Enviar</div>
+                <div class="btn s" style="flex:1;padding:8px;font-size:12px">Recibir</div>
+              </div>
+              <div class="row"><span>A Mamá · US$ 200</span><span class="chip">4 s</span></div>
+              <div class="row"><span>Cliente · US$ 650</span><span class="chip">recibido</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<p class="note">Los colores y la tipografía son provisionales. Aquí se elige la idea principal de la interfaz, no la paleta.</p>
