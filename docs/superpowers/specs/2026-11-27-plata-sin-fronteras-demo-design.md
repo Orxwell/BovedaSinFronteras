@@ -74,10 +74,10 @@ The live-slot length is unknown. Beats 1–4 must fit in about 3 minutes. Beats 
   - Habeas data (Ley 1581 de 2012) applies to the shared list of reported keys, to voice notes, and to the sign-up data.
 - **No autonomous money movement:** deterministic rules decide; AI only interprets language; the user or a human reviewer makes every final call.
 - **Dependencies.** Under the owner's rules, every new dependency needs its need, license, and maintenance justified, plus approval. Proposed, and approved together with this document:
-  - **Next.js**: frontend and API in one project. MIT license, actively maintained by Vercel. Brings React.
-  - **TypeScript**: dev dependency. Apache-2.0, maintained by Microsoft.
+  - **Runtime:** `next`, `react`, and `react-dom`. Next.js provides frontend and API in one project, and is actively maintained by Vercel. React and React DOM are maintained by Meta. All three are MIT-licensed.
+  - **Dev:** `typescript` (Apache-2.0, maintained by Microsoft), plus `@types/node`, `@types/react`, and `@types/react-dom` (MIT, DefinitelyTyped).
 
-  Nothing else without a separate approval. No Three.js and no TypeSafe SDK.
+  Versions are not pinned here; the builder picks current stable releases. Scaffold defaults beyond this list are **excluded** unless separately approved: ESLint, Tailwind, test frameworks, UI kits, and so on. No Three.js and no TypeSafe SDK.
 
 ## 5. Approaches considered
 
@@ -85,7 +85,7 @@ The live-slot length is unknown. Beats 1–4 must fit in about 3 minutes. Beats 
 |---|---|---|
 | **A. One TypeScript app** (Next.js frontend + API routes, one process) | One language and one process. Slower if the team were Python-first. | **Chosen** by the team. |
 | B. Web frontend + Python backend (FastAPI) | Comfortable for a Python team. Two projects, with more glue between them. | Rejected. |
-| C. Static site, no server | Fastest to build. Every AI answer canned and no real backend, so "funciona de punta a punta" suffers. | Rejected. |
+| C. Static site, no server | Fastest to build. But it has no server-side state, so there is no real ledger, no claim flow across two phones, and no server-side watchdog evaluating each payment. That weakens "funciona de punta a punta", and the live-Jev path later would need a server anyway. | Rejected. |
 
 **Jev (TypeSafe System One) is simulated.** The team has never used Jev and has no TypeSafe access for this event. Decision: hand-written, clearly labeled judgments that follow the **same request/response shape** as the public System One API, so the demo shows exactly how Jev would be used. Swapping in the real call later means replacing one function (section 8).
 
@@ -306,8 +306,8 @@ The pitch mentions this as the next step.
 | Criterion | Weight | How |
 |---|---|---|
 | Impact | 30% | Real pains in one story: sending to someone who has no account; a costly, slow remittance; an unbanked first-time user; the scam that targets elderly users; reporting after a loss. |
-| Innovation | 20% | Watchdog asks instead of blocking. Typed AI judgments are combined by explicit policy, so the AI has a clear role but is never the decider. Claimable payments instead of rejections. Trusted contact. Shared reported-key signal with a two-tier review. |
-| Technical feasibility | 20% | Full story runs end to end. Tested rules engine. Graceful fallback when language understanding fails. |
+| Innovation | 20% | Watchdog asks instead of blocking. The AI's role is designed and shown with **simulated** typed judgments, labeled as such, combined by explicit policy: the AI has a clear role but is never the decider, and the live integration point is one function. Claimable payments instead of rejections. Trusted contact. Shared reported-key signal with a two-tier review. |
+| Technical feasibility | 20% | Full story runs end to end on a real server with state. Tested rules engine. Graceful fallback when language understanding fails. AI judgments are simulated for this event. |
 | Implementation feasibility | 20% | Watchdog is a framework-free module. Mechanism built on concepts Belo already uses (local pools, digital dollars). Regulatory framing is explicit. The Jev integration point is one function. |
 | Presentation | 10% | One persona, one stage page, a visible "why it's fast" and "why it paused", and a backup video. |
 
