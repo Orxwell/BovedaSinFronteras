@@ -41,7 +41,7 @@ Belo resuelve esto con cuentas, tarjetas, pagos y dólares digitales en varios p
 
 ---
 
-## BóvedaSinFronteras (enlaces)
+###### BóvedaSinFronteras (enlaces)
 > *Volver al índice:* [Índice](#index)
 
 ---
@@ -52,7 +52,7 @@ A migrantes, freelancers, trabajadores remotos y familias que mueven plata entre
 
 ---
 
-## BóvedaSinFronteras (enlaces)
+###### BóvedaSinFronteras (enlaces)
 > *Volver al índice:* [Índice](#index)
 
 ---
@@ -79,7 +79,7 @@ Son solo un punto de partida, el reto está abierto a lo que creas que hace falt
 
 ---
 
-## BóvedaSinFronteras (enlaces)
+###### BóvedaSinFronteras (enlaces)
 > *Volver al índice:* [Índice](#index)
 
 ---
@@ -90,7 +90,7 @@ Pitch, demo y repositorio público. La demo muestra el flujo completo desde el p
 
 ---
 
-## BóvedaSinFronteras (enlaces)
+###### BóvedaSinFronteras (enlaces)
 > *Volver al índice:* [Índice](#index)
 
 ---
@@ -101,7 +101,7 @@ Si tienes cuenta en Belo, registra tu belotag (tu nombre de usuario en Belo) en 
 
 ---
 
-## BóvedaSinFronteras (enlaces)
+###### BóvedaSinFronteras (enlaces)
 > *Volver al índice:* [Índice](#index)
 
 ---
@@ -122,7 +122,7 @@ Los retos 1, 2 y 3 se califican con los mismos 5 criterios, en una escala de 1 a
 
 ---
 
-## BóvedaSinFronteras (enlaces)
+###### BóvedaSinFronteras (enlaces)
 > *Volver al índice:* [Índice](#index)
 
 ---
@@ -137,5 +137,5 @@ Las reglas están en Recursos, en Reto extra: Construye en Público.
 
 ---
 
-## BóvedaSinFronteras (enlaces)
+###### BóvedaSinFronteras (enlaces)
 > *Volver al índice:* [Índice](#index)
